@@ -1,0 +1,3 @@
+.terraform*
+*.backup
+tf.txt
