@@ -60,7 +60,7 @@ else
     printf "\n"
 fi
 
-workflowUrl=https://github.com/filecoin-project/retrieval-client/actions/workflows/${deployEnv}.yml
+workflowUrl=https://github.com/guanzo/saturn-terraform/actions/workflows/${deployEnv}.yml
 gitHash=$(git rev-parse --short HEAD)
 tagName=$deployEnv/$gitHash
 
