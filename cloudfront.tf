@@ -74,4 +74,8 @@ resource "aws_cloudfront_distribution" "s3" {
     minimum_protocol_version = "TLSv1.2_2019"
     ssl_support_method = "sni-only"
   }
+
+  tags = {
+    Name = "${var.app}-${var.env}-cloudfront"
+  }
 }

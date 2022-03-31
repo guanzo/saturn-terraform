@@ -8,15 +8,12 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.PROD_GITHUB_CI_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_GITHUB_CI_AWS_SECRET_ACCESS_KEY }}
   AWS_ACCOUNT_ID: ${{ secrets.PROD_AWS_ACCOUNT_NUMBER }}
-  AWS_REGION: us-west-1
+  AWS_REGION: us-west-2
   ROOT_DOMAIN: saturn-test.network
   BUCKET: filecoin-saturn-staging
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: terraform
     steps:
       - uses: actions/checkout@v3
 
@@ -37,7 +34,9 @@ jobs:
       - name: Terraform Apply
         env:
           TF_VAR_allowed_account_ids: '["${{secrets.PROD_AWS_ACCOUNT_NUMBER}}"]'
-          TF_VAR_root_domain: ${{env.ROOT_DOMAIN}}
-          TF_VAR_static_assets_bucket: ${{env.BUCKET}}
-          TF_VAR_env: staging
-        run: terraform apply --auto-approve
+          TF_VAR_database_user: ${{ secrets.STAGING_POSTGRES_DB_USER }}
+          TF_VAR_database_password: ${{ secrets.STAGING_POSTGRES_DB_PASSWORD }}
+        run: |
+          mv staging.tfvars terraform.tfvars
+          cat terraform.tfvars
+          terraform apply -var-file="terraform.tfvars" --auto-approve

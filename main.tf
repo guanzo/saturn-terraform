@@ -16,17 +16,18 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Environment = var.env
+      Environment = "${var.app}-${var.env}"
     }
   }
 }
 
 provider "aws" {
+  region              = var.aws_region
   allowed_account_ids = var.allowed_account_ids
 
   default_tags {
     tags = {
-      Environment = var.env
+      Environment = "${var.app}-${var.env}"
     }
   }
 }
